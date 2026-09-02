@@ -53,13 +53,13 @@ const tenant = new TenantClient({ t3n, baseUrl: getNodeUrl(), tenantDid });
 console.log("Tenant me:", JSON.stringify(await tenant.tenant.me(), null, 2));
 
 // ---- 1. Register the WASM contract ----
-const wasmPath = path.resolve("../contract/target/wasm32-wasip2/release/z_tenant_procurement.wasm");
+const wasmPath = path.resolve("contract/target/wasm32-wasip2/release/z_tenant_procurement.wasm");
 console.log("Reading WASM:", wasmPath);
 const wasmBytes = await readFile(wasmPath);
 console.log("WASM size:", wasmBytes.length);
 
 const CONTRACT_TAIL = "procurement-agent";
-const CONTRACT_VERSION = "0.1.0";
+const CONTRACT_VERSION = "0.1.1";
 
 let contractId;
 try {
