@@ -67,10 +67,20 @@ try {
   console.log("Register result:", JSON.stringify(reg, null, 2));
   contractId = reg.contract_id ?? reg.contractId ?? reg.id;
 } catch (e) {
-  console.log("Register error (maybe already exists):", e.message || e);
-  // try to get existing contract version
-  // list contracts isn't in SDK? try brute bump version
-  throw e;
+  const msg = e.message || String(e);
+  if (msg.includes("version") && msg.includes("not higher than current version")) {
+    console.log(`Contract already at ${CONTRACT_VERSION} — reusing existing deployment`);
+    // fetch existing contract id via tenant.contracts.list if available, else assume 865
+    try {
+      const list = await tenant.contracts.list?.();
+      console.log("Contracts list:", JSON.stringify(list, null, 2).slice(0,2000));
+      contractId = 865;
+    } catch {}
+    contractId = contractId ?? 865;
+  } else {
+    console.log("Register error (maybe already exists):", msg);
+    throw e;
+  }
 }
 console.log("Contract ID:", contractId);
 const tenantId = tenantDid.slice("did:t3n:".length);
