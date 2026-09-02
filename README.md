@@ -69,7 +69,7 @@ T3N_API_KEY=0x... T3N_UNSAFE=1 node deploy.mjs
 # Registers z:<tid>:procurement-agent, creates allowlist+secrets maps, seeds demo suppliers
 ```
 
-Full walkthrough, bug report, and handover notes are in [Google Doc](https://docs.google.com/document/d/1USp3v3hQOHbwaH0x4G_peXDFibMqx58E78SkxtmkOiE/edit?usp=sharing) (public).
+Full walkthrough, bug report, and handover notes are in [Google Doc](https://docs.google.com/document/d/1VTG9J3YemCTHeGij1MJioEeyH9jT21RqKmsfJDWfUOU/edit?usp=sharing) (public).
 
 ## Contract API
 
