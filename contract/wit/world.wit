@@ -1,0 +1,37 @@
+/// z-tenant-procurement WIT world — Confidential B2B Procurement Agent.
+///
+/// Two functions:
+///   - review-supplier: policy check (allowlist + spending limit) — KV reads only, no PII, no outbound HTTP.
+///   - create-po: creates a purchase order via outbound HTTP with placeholders — payment PII never enters WASM.
+///
+/// Host capabilities:
+///   tenant-context, logging, kv-store, http, http-with-placeholders (for PO's payment fields)
+package z:tenant-procurement@0.1.1;
+
+world tenant-procurement {
+    import host:tenant/tenant-context@1.0.0;
+    import host:interfaces/logging@2.1.0;
+    import host:interfaces/kv-store@2.1.0;
+    import host:interfaces/http-with-placeholders@2.1.0;
+
+    export contracts;
+}
+
+interface contracts {
+    record generic-input {
+        input:        option<list<u8>>,
+        user-profile: option<list<u8>>,
+        context:      option<list<u8>>,
+    }
+
+    /// Review a procurement request against enterprise policy.
+    /// Input  (JSON): { supplier_id, sku, quantity, amount, currency }
+    /// Output (JSON): { approved: bool, reason: string, supplier: string, policy_version: string }
+    review-supplier: func(req: generic-input) -> result<list<u8>, string>;
+
+    /// Create a purchase order for an approved supplier.
+    /// Input  (JSON): { supplier_id, sku, quantity, amount, currency }
+    /// Output (JSON): { po_id: string, status: string, supplier_id: string }
+    /// Uses {{profile.*}} placeholders for payment PII — plaintext never enters WASM.
+    create-po: func(req: generic-input) -> result<list<u8>, string>;
+}

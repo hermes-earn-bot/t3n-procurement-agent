@@ -1,0 +1,36 @@
+Contract z:0a46b0c38cab1691220abede5d65e633385b6732:procurement-agent ver 0.1.0
+
+review-supplier input={"supplier_id":"acme-corp","sku":"SKU-001","quantity":2,"amount":"1200.00","currency":"USD"} -> {
+  "approved": true,
+  "reason": "supplier approved and within spending limit",
+  "supplier": "acme-corp",
+  "policy_version": "v1"
+}
+
+review-supplier input={"supplier_id":"evil-corp","sku":"SKU-001","quantity":1,"amount":"100.00","currency":"USD"} -> {
+  "approved": false,
+  "reason": "supplier 'evil-corp' not in allowlist [\"acme-corp\", \"initech\", \"globex\"]",
+  "supplier": "evil-corp",
+  "policy_version": "v1"
+}
+
+review-supplier input={"supplier_id":"acme-corp","sku":"SKU-999","quantity":1,"amount":"99999.00","currency":"USD"} -> {
+  "approved": false,
+  "reason": "amount 99999 exceeds per-supplier limit 5000 for acme-corp",
+  "supplier": "acme-corp",
+  "policy_version": "v1"
+}
+create-po error (expected without user delegation): RPC Error: contract error: supplier PO call failed: egress denied for host httpbin.org [7365ac5a-3711-4064-bbff-7b685cb928be]
+RpcError: RPC Error: contract error: supplier PO call failed: egress denied for host httpbin.org [7365ac5a-3711-4064-bbff-7b685cb928be]
+    at T3nClient.throwIfRpcError (file:///home/ubuntu/t3n-workspace/my-t3n-app/node_modules/@terminal3/t3n-sdk/dist/index.esm.js:2:1151439)
+    at T3nClient.sendRpcRequest (file:///home/ubuntu/t3n-workspace/my-t3n-app/node_modules/@terminal3/t3n-sdk/dist/index.esm.js:2:1148190)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async T3nClient.execute (file:///home/ubuntu/t3n-workspace/my-t3n-app/node_modules/@terminal3/t3n-sdk/dist/index.esm.js:2:1123804)
+    at async call (file:///home/ubuntu/t3n-workspace/my-t3n-app/demo_final.mjs:15:15)
+    at async file:///home/ubuntu/t3n-workspace/my-t3n-app/demo_final.mjs:32:3 {
+  code: 'RPC_ERROR',
+  rpcMethod: 'action.execute',
+  httpStatus: -32602,
+  detail: 'contract error: supplier PO call failed: egress denied for host httpbin.org',
+  requestId: '7365ac5a-3711-4064-bbff-7b685cb928be'
+}

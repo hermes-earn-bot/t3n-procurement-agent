@@ -1,0 +1,17 @@
+{
+  "name": "t3n-procurement-agent",
+  "version": "1.0.0",
+  "description": "Confidential B2B Procurement Agent for T3N \u2014 supplier allowlist + spending limits in TEE",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "hermes-earn-bot <hermes.agent.grade@gmail.com>",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@terminal3/t3n-sdk": "^5.7.0",
+    "tsx": "^4.23.13"
+  }
+}
