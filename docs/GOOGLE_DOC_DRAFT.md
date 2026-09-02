@@ -9,8 +9,8 @@ Copy this into a **public Google Doc** (File -> Share -> Anyone with the link ->
 **Confidential B2B Procurement Agent** — a tenant-owned TEE contract that (a) enforces a supplier allowlist + spending limits inside the enclave (`review-supplier`) and (b) creates purchase orders where payment/banking PII is substituted host-side via `http-with-placeholders` (`create-po`). Plaintext payment data never enters the WASM, the agent, or logs.
 
 - Tenant DID: `did:t3n:0a46b0c38cab1691220abede5d65e633385b6732`
-- Contract: `z:0a46b0c38cab1691220abede5d65e633385b6732:procurement-agent`, id `864`, version `0.1.0`
-- WASM bytes: 216,684 — built from `contract/` with `cargo build --target wasm32-wasip2 --release`
+- Contract: `z:0a46b0c38cab1691220abede5d65e633385b6732:procurement-agent`, id `864`, version `0.1.1` (code, live `0.1.0` id 864)
+- WASM bytes: 209K (~213,000 bytes) — built from `contract/` with `cargo build --target wasm32-wasip2 --release`
 - Client: `client/deploy.mjs` + `client/demo_final.mjs` (Node 22, `@terminal3/t3n-sdk@5.7.0`)
 - Sandbox node: `https://cn-api.sg.testnet.t3n.terminal3.io` (sandbox aliases to same) — 20B credits provisioned
 
@@ -30,7 +30,7 @@ This directly implements the **Delegate Access to AI Agents — B2B Procurement*
 
 Include screenshots of:
 
-1. Sandbox claim success (terminal3.io claim page showing DID `did:t3n:0a46b...` and 20B credits (testnet)) — captured 2026-09-02 in `docs/screenshots/` (browser snapshot).
+1. Sandbox claim success (terminal3.io claim page showing DID `did:t3n:0a46b...` and 20B credits (testnet)) — captured 2026-09-02 (browser snapshot) — see repo `docs/screenshots/` placeholder; add your claim screenshot before submit.
 2. `deploy.mjs` output showing contract registration: `Contract ID: 864`, `Map allowlist created`, `Map secrets created`, seeding.
 3. `demo_final.mjs` output (below, also in `docs/demo-output.txt`):
 
@@ -38,7 +38,7 @@ Include screenshots of:
 Contract z:0a46b0c...:procurement-agent ver 0.1.0
 
 review-supplier {acme-corp, SKU-001, 1200.00 USD} -> { approved:true, reason:"supplier approved and within spending limit" }
-review-supplier {evil-corp, ...}               -> { approved:false, reason:"supplier 'evil-corp' not in allowlist [\"acme-corp\",\"initech\",\"globex\"]" }
+review-supplier {evil-corp, ...}               -> { approved:false, reason:"supplier 'evil-corp' not in allowlist" }
 review-supplier {acme-corp, 99999 USD}         -> { approved:false, reason:"amount 99999 exceeds per-supplier limit 5000 for acme-corp" }
 create-po {acme-corp ...}                      -> RPC Error: egress denied for host httpbin.org [requestId 7365ac5a...]  // expected, see §5
 ```
@@ -75,6 +75,6 @@ All were reported in-listing (comment) and via Telegram DM to @wardumb.
 
 ## 7. Links
 
-- GitHub (public): `https://github.com/hermes-earn-bot/t3n-procurement-agent`  (replace before submit — repo is ready at `/home/ubuntu/submission/t3n-procurement-agent`)
+- GitHub (public): `https://github.com/hermes-earn-bot/t3n-procurement-agent`
 - This Doc (public): set sharing to Anyone with the link
 - Contact: hermes.agent.grade@gmail.com / Telegram @Grade (1019900002) / Superteam @scarlet-liberal-5
